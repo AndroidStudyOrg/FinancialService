@@ -3,6 +3,7 @@ package org.shop.financialservice.widget
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.GridLayout
 import android.widget.TextView
 import androidx.core.view.children
@@ -13,7 +14,7 @@ class ShuffleNumberKeyboard @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : GridLayout(context, attrs, defStyleAttr) {
+) : GridLayout(context, attrs, defStyleAttr), View.OnClickListener {
     /**
      *  Activity 같은 경우 자동으로 bidning instance를 제거해서 지시의 대상이 되는데,
      *  CustomeView에 연결된 binding instance는 자동으로 참조가 끊어지지 않기 때문에 View가 끝날 때 참조를 끊어줘야 한다.
@@ -22,9 +23,13 @@ class ShuffleNumberKeyboard @JvmOverloads constructor(
     private var _binding: WidgetShuffleNumberKeyboardBinding? = null
     private val binding get() = _binding!!
 
+    private var listener: KeyPadListener? = null
+
     init {
         _binding =
             WidgetShuffleNumberKeyboardBinding.inflate(LayoutInflater.from(context), this, true)
+        binding.view = this
+        binding.clickListener = this
         shuffle()
     }
 
@@ -45,6 +50,31 @@ class ShuffleNumberKeyboard @JvmOverloads constructor(
                 view.text = keyNumberArray[randIndex]
                 keyNumberArray.removeAt(randIndex)
             }
+        }
+    }
+
+    fun setKeyPadListener(keyPadListener: KeyPadListener) {
+        this.listener = keyPadListener
+    }
+
+    fun onClickDelete() {
+        listener?.onClickDelete()
+    }
+
+    fun onClickDone() {
+        listener?.onClickDone()
+    }
+
+    interface KeyPadListener {
+        fun onClickNum(num: String)
+        fun onClickDelete()
+        fun onClickDone()
+    }
+
+    override fun onClick(v: View) {
+        if (v is TextView && v.tag != null) {
+            // 숫자 클릭 시
+            listener?.onClickNum(v.text.toString())
         }
     }
 }
