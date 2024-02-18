@@ -19,7 +19,8 @@
         android:layout_height="match_parent"
         android:background="@color/black"
         android:clipChildren="false"
-        android:columnCount="3">
+        android:columnCount="3"
+        android:minHeight="300dp">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/keypadNum1"
@@ -86,8 +87,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             style="@style/Button.KeyPad"
-            android:padding="56dp"
             android:onClick="@{() -> view.onClickDelete()}"
+            android:padding="24dp"
             android:src="@drawable/baseline_backspace_24" />
 
         <androidx.appcompat.widget.AppCompatTextView
