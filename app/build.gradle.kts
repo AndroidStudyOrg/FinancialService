@@ -41,6 +41,8 @@ android {
 
 dependencies {
     implementation("androidx.activity:activity-ktx:1.8.2")
+    // SMS 리트리버. SMS의 인증번호 자동으로 인식해서 입력
+    implementation("com.google.android.gms:play-services-auth-api-phone:18.0.2")
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
